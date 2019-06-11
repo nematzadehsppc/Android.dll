@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{B982EEE3-A50D-485C-B5E4-38DE79C059BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{BF9E483D-D462-4B9E-83E8-7418A1688D35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerManagement", "CustomerManagement", "{4282CEC2-6718-400D-9F72-0DD197C5EB3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageManagement", "ImageManagement", "{A8B4040E-E6BE-4467-8FDD-9CD2EA8ECB19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PrintManagement", "PrintManagement", "{EF8C4058-A4CB-422F-A86F-804194E09C44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerInfo", "UnitTest\CustomerManagement\CustomerInfo.csproj", "{C858183F-9E39-41E8-A06B-5104C769E31D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageManagement", "ImageManagement", "{118DE148-A356-4471-A562-4F75E8EE0A75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PrintManagement", "PrintManagement", "{54BE2635-078C-447C-9AE0-D08A33771BAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerManagement", "CustomerManagement", "{4A69FF84-EA0D-450B-AB2E-6C4A563DAB5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerInfo", "Service\CustomerManagement\CustomerInfo\CustomerInfo.csproj", "{61CED824-CCB8-4CF3-B9E3-6D4299D9B024}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C858183F-9E39-41E8-A06B-5104C769E31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C858183F-9E39-41E8-A06B-5104C769E31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C858183F-9E39-41E8-A06B-5104C769E31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C858183F-9E39-41E8-A06B-5104C769E31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61CED824-CCB8-4CF3-B9E3-6D4299D9B024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61CED824-CCB8-4CF3-B9E3-6D4299D9B024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61CED824-CCB8-4CF3-B9E3-6D4299D9B024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61CED824-CCB8-4CF3-B9E3-6D4299D9B024}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4282CEC2-6718-400D-9F72-0DD197C5EB3D} = {BF9E483D-D462-4B9E-83E8-7418A1688D35}
+		{A8B4040E-E6BE-4467-8FDD-9CD2EA8ECB19} = {BF9E483D-D462-4B9E-83E8-7418A1688D35}
+		{EF8C4058-A4CB-422F-A86F-804194E09C44} = {BF9E483D-D462-4B9E-83E8-7418A1688D35}
+		{C858183F-9E39-41E8-A06B-5104C769E31D} = {4282CEC2-6718-400D-9F72-0DD197C5EB3D}
+		{118DE148-A356-4471-A562-4F75E8EE0A75} = {B982EEE3-A50D-485C-B5E4-38DE79C059BF}
+		{54BE2635-078C-447C-9AE0-D08A33771BAC} = {B982EEE3-A50D-485C-B5E4-38DE79C059BF}
+		{4A69FF84-EA0D-450B-AB2E-6C4A563DAB5D} = {B982EEE3-A50D-485C-B5E4-38DE79C059BF}
+		{61CED824-CCB8-4CF3-B9E3-6D4299D9B024} = {4A69FF84-EA0D-450B-AB2E-6C4A563DAB5D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC6B5C48-E14B-4C8B-9840-FCFDA68759A1}
+	EndGlobalSection
+EndGlobal
