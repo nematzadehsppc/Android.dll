@@ -1,0 +1,30 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Activities;
+using Tadbir;
+
+namespace Print
+{
+    public partial class PrintPreview : Form
+    {
+        public PrintPreview()
+        {
+            InitializeComponent();
+        }
+
+        private void btn_download_pdf_Click(object sender, EventArgs e)
+        {
+            TadbirPrint tadbirPrint = new TadbirPrint();
+
+            tadbirPrint.UserId = new InArgument<int>(1);
+            tadbirPrint.WorkspaceId = new InArgument<int>(3);
+            tadbirPrint.FPId = new InArgument<int>(1);
+            tadbirPrint.SubsystemId = new InArgument<int>(4);
+            tadbirPrint.ReportName = new InArgument<string>("");
+            tadbirPrint.ParamTypes = new InArgument<string[]>();
+            tadbirPrint.ParamValues = new InArgument<string[]>();
+
+            System.Activities.WorkflowInvoker.Invoke<String>(tadbirPrint);
+        }
+    }
+}

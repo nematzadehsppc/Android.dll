@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using TadbirModels;
 
-namespace CustomerManagement
+namespace Tadbir
 {
     public class CustomerInfo : CodeActivity<string>
     {
