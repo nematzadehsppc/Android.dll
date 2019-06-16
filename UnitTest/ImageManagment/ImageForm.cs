@@ -23,7 +23,7 @@ namespace ImageManagement
             Image.Group = new InArgument<string>("Inventory");
             Image.Entity = new InArgument<string>("Image");
             Image.Function = new InArgument<string>("getImageByImageId");
-            Image.MerchId = new InArgument<int>(3);
+            Image.MerchId = new InArgument<int>(5);
             Image.FPId = new InArgument<int>(1);
             Image.SysId = new InArgument<int>(4);
             Image.FormId = new InArgument<int>(2);
