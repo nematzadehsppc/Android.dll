@@ -56,7 +56,8 @@ namespace Tadbir
 
         protected override string Execute(CodeActivityContext context)
         {
-            ip = IP.Get(context);
+            //ip = IP.Get(context);
+            ip = "localhost";
             port = Port.Get(context);
             database = Database.Get(context);
             version = Version.Get(context);
@@ -82,37 +83,28 @@ namespace Tadbir
                     {
                         var detailAcc = getDetailAccById(customer.FAccId);
                         detailAccList.Add(detailAcc);
+
+                        detailAcc = detailAccList[detailAccList.Count - 1];
+                        var accVsDetail = getAccVsDetailsByDetId(customer.FAccId, getDetFullId(detailAcc));
+                        accVsDetailList.AddRange(accVsDetail);
                     }
 
                     if (customer.CCId != 0)
                     {
                         var costCenter = getCostCenterById(customer.CCId);
                         costCenterList.Add(costCenter);
+
+                        var accVsCC = getAccVsCCByCCId(customer.CCId);
+                        accVsCCList.AddRange(accVsCC);
                     }
 
                     if (customer.PrjId != 0)
                     {
                         var project = getProjectById(customer.PrjId);
                         projectList.Add(project);
-                    }
 
-                    if (customer.AccId != "0" && customer.FAccId != 0)
-                    {
-                        var detailAcc = detailAccList[detailAccList.Count - 1];
-                        var accVsDetail = getAccVsDetailByFullId(customer.AccId, customer.FAccId, getDetFullId(detailAcc));
-                        accVsDetailList.Add(accVsDetail);
-                    }
-
-                    if (customer.AccId != "0" && customer.CCId != 0)
-                    {
-                        var accVsCC = getAccVsCCByFullId(customer.AccId, customer.CCId);
-                        accVsCCList.Add(accVsCC);
-                    }
-
-                    if (customer.AccId != "0" && customer.PrjId != 0)
-                    {
-                        var accVsPrj = getAccVsPrjByFullId(customer.AccId, customer.PrjId);
-                        accVsPrjList.Add(accVsPrj);
+                        var accVsPrj = getAccVsPrjByPrjId(customer.PrjId);
+                        accVsPrjList.AddRange(accVsPrj);
                     }
                 }
             }
@@ -156,22 +148,22 @@ namespace Tadbir
             return GetAsync<Project>(url);
         }
 
-        private AccVsDetail getAccVsDetailByFullId(string fullId, int faccId, string detFullId)
+        private List<AccVsDetail> getAccVsDetailsByDetId(int faccId, string detFullId)
         {
-            string url = string.Format("Account/AccountVector/GetAccVsDetailsByFullId?FullId={0}&DetId={1}&DetFullId={2}&FPId={3}&key={4}", fullId, faccId, detFullId, fpId, serviceKey);
-            return GetAsync<AccVsDetail>(url);
+            string url = string.Format("Account/AccountVector/GetAccVsDetailsByDetId?DetId={0}&DetFullId={1}&FPId={2}&key={3}", faccId, detFullId, fpId, serviceKey);
+            return GetListAsyncTask<AccVsDetail>(url);
         }
 
-        private AccVsCC getAccVsCCByFullId(string fullId, int ccId)
+        private List<AccVsCC> getAccVsCCByCCId(int ccId)
         {
-            string url = string.Format("Account/AccountVector/GetAccVsCCByFullId?FullId={0}&CCId={1}&FPId={2}&key={3}", fullId, ccId, fpId, serviceKey);
-            return GetAsync<AccVsCC>(url);
+            string url = string.Format("Account/AccountVector/GetAccVsCCByCCId?CCId={0}&FPId={1}&key={2}", ccId, fpId, serviceKey);
+            return GetListAsyncTask<AccVsCC>(url);
         }
 
-        private AccVsPrj getAccVsPrjByFullId(string fullId, int prjId)
+        private List<AccVsPrj> getAccVsPrjByPrjId(int prjId)
         {
-            string url = string.Format("Account/AccountVector/GetAccVsPrjByFullId?FullId={0}&PrjId={1}&FPId={2}&key={3}", fullId, prjId, fpId, serviceKey);
-            return GetAsync<AccVsPrj>(url);
+            string url = string.Format("Account/AccountVector/GetAccVsPrjByPrjId?PrjId={0}&FPId={1}&key={2}", prjId, fpId, serviceKey);
+            return GetListAsyncTask<AccVsPrj>(url);
         }
 
         private T GetAsync<T>(string uri)

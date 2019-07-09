@@ -54,6 +54,13 @@
     <Compile Include="Service\ITadbirPrint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implementation\TadbirPrint.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirDecoder.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirDirectionCodePage.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirDirectionConvertor.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirDirectionHelper.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirEncoder.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirSamanDecoder.cs" />
+    <Compile Include="Service\SamanConvertor\TadbirStringExtension.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -75,12 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SamanConverter\SamanConverter.csproj">
-      <Project>{178d7f45-5592-404d-b47b-a8d649fa82c3}</Project>
-      <Name>SamanConverter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

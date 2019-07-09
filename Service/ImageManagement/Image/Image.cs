@@ -39,7 +39,7 @@ namespace Tadbir
 
             try
             {
-                string ip = IP.Get<string>(context);
+                string ip = "localhost";
                 string port = Port.Get<string>(context);
                 string db = dbName.Get<string>(context);
                 string version = Version.Get<string>(context);

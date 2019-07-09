@@ -1,16 +1,18 @@
-﻿using System;
+﻿using BasePrint;
+using BasePrint.Properties;
+using System;
 using System.Activities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading;
-using System.Data;
-using BasePrint;
+using System.Threading.Tasks;
 
 namespace Tadbir
 {
-    public class TadbirPrint : CodeActivity<string>, ITadbirPrint
+    public class TadbirPrint : CodeActivity<string> , ITadbirPrint
     {
         CodepageConvertor _codepageService = new CodepageConvertor();
 
@@ -24,11 +26,11 @@ namespace Tadbir
 
         public InArgument<string> ReportName { get; set; }
 
-        public InArgument<string[]> ParamTypes { get; set; }
-    
-        public InArgument<string[]> ParamValues { get; set; }
+        public InArgument<string> ParamTypes { get; set; }
 
-        protected override String Execute(CodeActivityContext context)
+        public InArgument<string> ParamValues { get; set; }
+        
+        protected override string Execute(CodeActivityContext context)
         {
             try
             {
@@ -37,17 +39,22 @@ namespace Tadbir
                 int fpid = FPId.Get<int>(context);
                 int subsystemId = SubsystemId.Get<int>(context);
                 string reportName = ReportName.Get<string>(context);
-                string[] paramTypes = ParamTypes.Get<string[]>(context);
-                string[] paramValues = ParamValues.Get<string[]>(context);
-                string exceptionStr;
+                string[] paramTypes = new[] { ParamTypes.Get<string>(context) };
+                string[] paramValues = new[] { ParamValues.Get<string>(context) };
 
-                PrintReport(userId, workspaceId, fpid, subsystemId, reportName, paramTypes, paramValues, out exceptionStr);
+                string outputFileName = PrintReport(userId, workspaceId, fpid, subsystemId, reportName, paramTypes, paramValues, out string exceptionStr);
+
+                if (outputFileName == null)
+                    return exceptionStr;
+
+                return Convert.ToBase64String(File.ReadAllBytes(outputFileName));
             }
             catch (Exception ex)
             {
-                throw ex;
+                EventLog.WriteEntry("BasePrint.TadbirPrint", ex.Message);
+                return "-4";  //ex.Message;
+                //throw ex;
             }
-            throw new NotImplementedException();
         }
 
         public string PrintReport(int userId, int workspaceId, int fpId, int subsystemId, string reportName, string[] paramTypes, string[] paramValues, out string exceptionStr)
@@ -55,15 +62,15 @@ namespace Tadbir
             exceptionStr = "";
             if (string.IsNullOrEmpty(QueuePath))
             {
-                exceptionStr = "مسیر چاپ تعیین نشده است.";
+                exceptionStr = "0"; // "مسیر چاپ تعیین نشده است.";
                 return null;
             }
 
-            /*if (paramTypes.Length != paramValues.Length)
+            if (paramTypes.Length != paramValues.Length)
             {
                 exceptionStr = $"paramValues count ({paramValues.Length}) <> paramTypes count ({paramTypes.Length})";
                 return null;
-            }*/
+            }
 
             try
             {
@@ -91,11 +98,7 @@ namespace Tadbir
                 lines.Add(fpId.ToString()); //LINE 3
                 lines.Add("NOT EMPTY LINE"); //LINE 4
                 lines.Add(_codepageService.toTadbir(reportName)); //LINE 5
-
-
-
                 lines.Add(paramValues.Length.ToString()); //LINE 6
-
 
                 for (int i = 0; i < paramValues.Length; i++)
                 {
@@ -136,7 +139,7 @@ namespace Tadbir
 
 
                 JobWatcher jobWatcher =
-                    (
+                (
                     new JobWatcher()
                     {
                         PdfFileName = Path.GetFileNameWithoutExtension(queueTextFileName) + ".pdf",
@@ -146,7 +149,7 @@ namespace Tadbir
                         Error = false,
                         Timeout = false
                     }
-                    );
+                );
 
                 jobWatcher.Timer = new Timer(TimerCallBack, jobWatcher, 30000, 1000);
 
@@ -158,7 +161,7 @@ namespace Tadbir
                 jobWatcher.Errors.EnableRaisingEvents = true;
                 _watchers.Add(jobWatcher);
 
-                var enc1256 = System.Text.Encoding.GetEncoding(1256);// CodePagesEncodingProvider.Instance.GetEncoding("windows-1256");
+                var enc1256 = Encoding.GetEncoding(1256);// CodePagesEncodingProvider.Instance.GetEncoding("windows-1256");
                 using (FileStream fs = new FileStream(queueTextFileName, FileMode.Create, FileAccess.Write, FileShare.None, 32768, FileOptions.WriteThrough))
                 {
                     using (StreamWriter sw = new StreamWriter(fs, enc1256))
@@ -176,13 +179,13 @@ namespace Tadbir
 
                 if (jobWatcher.Timeout)
                 {
-                    exceptionStr = "لطفا مطمئن شوید برنامه TadRepPdf روی سرور در حال اجراست.";
+                    exceptionStr = "-1";  //"لطفا مطمئن شوید برنامه TadRepPdf روی سرور در حال اجراست.";
                     return null;
                 }
 
                 if (jobWatcher.Error)
                 {
-                    exceptionStr = "برنامه چاپ سرور روی چاپ این فرم خطا داده است.";
+                    exceptionStr = "-2";  //"برنامه چاپ سرور روی چاپ این فرم خطا داده است.";
                     return null;
                 }
 
@@ -193,7 +196,7 @@ namespace Tadbir
             }
             catch (Exception exp)
             {
-                exceptionStr = exp.ToString();
+                exceptionStr = "-3"; //exp.ToString();
                 return null;
             }
         }
@@ -277,7 +280,7 @@ namespace Tadbir
         /// <summary>
         /// مسیر خطا
         /// </summary>
-        public string ErrorsPath
+        private string ErrorsPath
         {
             get
             {
@@ -291,7 +294,7 @@ namespace Tadbir
         /// <summary>
         /// مسیر خروجی
         /// </summary>
-        public string ProcessedPath
+        private string ProcessedPath
         {
             get
             {
@@ -304,7 +307,7 @@ namespace Tadbir
         /// <summary>
         /// مسیر صف کارهای چاپ
         /// </summary>
-        public string QueuePath
+        private string QueuePath
         {
             get
             {
@@ -321,7 +324,7 @@ namespace Tadbir
         {
             get
             {
-                return BasePrint.Properties.Settings.Default.TadbirPrintPath;
+                return Settings.Default.TadbirPrintPath;
             }
         }
 
@@ -333,4 +336,5 @@ namespace Tadbir
             }
         }
     }
+      
 }

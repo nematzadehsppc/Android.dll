@@ -62,7 +62,7 @@
             this.txt_box_ip.Name = "txt_box_ip";
             this.txt_box_ip.Size = new System.Drawing.Size(147, 21);
             this.txt_box_ip.TabIndex = 1;
-            this.txt_box_ip.Text = "130.185.76.7";
+            this.txt_box_ip.Text = "79.127.99.82";
             this.txt_box_ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_box_port
@@ -81,7 +81,7 @@
             this.txt_box_database.Name = "txt_box_database";
             this.txt_box_database.Size = new System.Drawing.Size(147, 21);
             this.txt_box_database.TabIndex = 3;
-            this.txt_box_database.Text = "TESTANDRIOD";
+            this.txt_box_database.Text = "SARDOMID";
             this.txt_box_database.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_box_version
@@ -99,7 +99,7 @@
             this.txt_box_userId.Name = "txt_box_userId";
             this.txt_box_userId.Size = new System.Drawing.Size(147, 21);
             this.txt_box_userId.TabIndex = 5;
-            this.txt_box_userId.Text = "9";
+            this.txt_box_userId.Text = "267";
             this.txt_box_userId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_box_fpId
@@ -108,7 +108,7 @@
             this.txt_box_fpId.Name = "txt_box_fpId";
             this.txt_box_fpId.Size = new System.Drawing.Size(147, 21);
             this.txt_box_fpId.TabIndex = 6;
-            this.txt_box_fpId.Text = "1";
+            this.txt_box_fpId.Text = "3";
             this.txt_box_fpId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txt_box_service_key
